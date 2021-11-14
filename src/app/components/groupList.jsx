@@ -8,24 +8,43 @@ const GroupList = ({
     onItemSelect,
     selectedItem
 }) => {
-    console.log(items);
-    return (
-        <ul className="list-group">
-            {Object.keys(items).map((item) => (
-                <li
-                    key={items[item][valueProperty]}
-                    className={
-                        "list-group-item" +
-                        (items[item] === selectedItem ? " active" : "")
-                    }
-                    onClick={() => onItemSelect(items[item])}
-                    role="button"
-                >
-                    {items[item][contentProperty]}
-                </li>
-            ))}
-        </ul>
-    );
+    if (typeof items === "object" && Array.isArray(items) === false) {
+        return (
+            <ul className="list-group">
+                {Object.keys(items).map((item) => (
+                    <li
+                        key={items[item][valueProperty]}
+                        className={
+                            "list-group-item" +
+                            (items[item] === selectedItem ? " active" : "")
+                        }
+                        onClick={() => onItemSelect(items[item])}
+                        role="button"
+                    >
+                        {items[item][contentProperty]}
+                    </li>
+                ))}
+            </ul>
+        );
+    } else if (Array.isArray(items) === true) {
+        return (
+            <ul className="list-group">
+                {items.map((item) => (
+                    <li
+                        key={item[valueProperty]}
+                        className={
+                            "list-group-item" +
+                            (item === selectedItem ? " active" : "")
+                        }
+                        onClick={() => onItemSelect(items[item])}
+                        role="button"
+                    >
+                        {item[contentProperty]}
+                    </li>
+                ))}
+            </ul>
+        );
+    }
 };
 GroupList.defaultProps = {
     valueProperty: "_id",
